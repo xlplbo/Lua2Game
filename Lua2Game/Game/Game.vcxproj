@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core.cpp" />
+    <ClCompile Include="src\GameDef.cpp" />
     <ClCompile Include="src\LuaScript.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
