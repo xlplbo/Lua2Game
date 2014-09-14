@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaDll", "LuaDll\LuaDll.vcxproj", "{E6A6F2B7-DFB3-4843-9E5A-5D9EB3B0D259}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcxproj", "{10E013E9-1C10-4F77-94A2-17E53C20D12B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E6A6F2B7-DFB3-4843-9E5A-5D9EB3B0D259}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E6A6F2B7-DFB3-4843-9E5A-5D9EB3B0D259}.Debug|Win32.Build.0 = Debug|Win32
+		{E6A6F2B7-DFB3-4843-9E5A-5D9EB3B0D259}.Release|Win32.ActiveCfg = Release|Win32
+		{E6A6F2B7-DFB3-4843-9E5A-5D9EB3B0D259}.Release|Win32.Build.0 = Release|Win32
+		{10E013E9-1C10-4F77-94A2-17E53C20D12B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{10E013E9-1C10-4F77-94A2-17E53C20D12B}.Debug|Win32.Build.0 = Debug|Win32
+		{10E013E9-1C10-4F77-94A2-17E53C20D12B}.Release|Win32.ActiveCfg = Release|Win32
+		{10E013E9-1C10-4F77-94A2-17E53C20D12B}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
