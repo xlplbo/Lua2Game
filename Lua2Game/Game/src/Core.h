@@ -16,7 +16,7 @@ public:
 	bool	Breathe();
 
 private:
-	CLuaScript m_Script;
+	CLuaScript* m_Script;
 };
 
 extern CCore g_Core;

@@ -1,4 +1,6 @@
+#include <iostream>
 #include "Core.h"
+using namespace std;
 
 int main(int argc, char* argv[])
 {
@@ -7,12 +9,12 @@ int main(int argc, char* argv[])
 		g_Core.Uninitialize();
 		return 0;
 	}
-	bool bRunning = true;
-	while (bRunning)
+	std::cout << "Start game!!!" << std::endl;
+	while (g_bRunning)
 	{
-		bRunning = g_Core.Breathe();
+		g_bRunning = g_Core.Breathe();
 	}
-
+	std::cout << "Game over!!!" << std::endl;
 	g_Core.Uninitialize();
 	return 1;
 }

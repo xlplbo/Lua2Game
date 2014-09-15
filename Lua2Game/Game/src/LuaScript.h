@@ -1,18 +1,7 @@
 #ifndef __LUA_SCRIPT_H__
 #define __LUA_SCRIPT_H__
 
-#include <map>
 #include "GameDef.h"
-
-class CScriptNode
-{
-public:
-	CScriptNode();
-	~CScriptNode();
-
-private:
-
-};
 
 class CLuaScript
 {
@@ -21,10 +10,17 @@ public:
 	~CLuaScript();
 
 public:
-	bool LoadScript(const char* szRootPath, const char* szFilePath);
+	bool	LoadScript(const char* szFileName);
+	bool	CallFunction(char* cFuncName, int nResults, char* cFormat, va_list vlist);
+	bool	CallFunction(const char* cFuncName, int nResults, char* cFormat, ...);
 
 private:
-	std::map<size_t, CScriptNode> m_ScriptTree;
+	void	RegisterLuaLib();
+	bool	RegisterFunctions(TLua_Funcs Funcs[], int n = 0);
+	
+private:
+	lua_State*	m_LuaState;
+	bool		m_IsLoadScript;
 };
 
 
