@@ -10,7 +10,7 @@ CLuaScript::CLuaScript()
 		return;
 	}
 	RegisterLuaLib();//注册lua标准库
-	RegisterFunctions(g_GameFunc);//注册c++脚本接口
+	RegisterFunctions(g_GameFunc, g_GetGameFuncSize());//注册c\c++脚本接口
 	m_IsLoadScript = false;
 }
 
@@ -33,14 +33,12 @@ void CLuaScript::RegisterLuaLib()
 	luaL_openlibs(m_LuaState);
 }
 
-bool CLuaScript::RegisterFunctions(TLua_Funcs Funcs[], int n /*= 0*/)
+bool CLuaScript::RegisterFunctions(TLua_Funcs Funcs[], int n)
 {
 	if (!m_LuaState)
 	{
 		return false;
 	}
-	if (n == 0)
-		n = sizeof(Funcs) / sizeof(Funcs[0]);
 	for (int i = 0; i < n; i++)
 		lua_register(m_LuaState, Funcs[i].name, Funcs[i].func);
 	return true;
@@ -56,12 +54,12 @@ bool CLuaScript::LoadScript(const char* szFileName)
 	if (!m_LuaState)
 		return false;
 
-	m_IsLoadScript = luaL_dofile(m_LuaState, szFileName);
-	/*if (!m_IsLoadScript)
+	m_IsLoadScript = (luaL_dofile(m_LuaState, szFileName) == LUA_OK);
+	if (!m_IsLoadScript)
 	{
-		std::cout << "LUA_LOAD_ERROR:"<< lua_tostring(m_LuaState, -1) << std::endl;
+		std::cout << "<LUA_LOAD_ERROR>"<< lua_tostring(m_LuaState, -1) << std::endl;
 		lua_pop(m_LuaState, 1);
-	}*/
+	}
 	return m_IsLoadScript;
 }
 
@@ -141,7 +139,7 @@ bool CLuaScript::CallFunction(char* cFuncName, int nResults, char* cFormat, va_l
 
 	if (nRetcode != 0)
 	{
-		std::cout << "LUA_CALL_FUNC_ERROR<" << cFuncName << ">:" << lua_tostring(m_LuaState, -1) << std::endl;
+		std::cout << "<LUA_CALL_FUNC_ERROR>" << lua_tostring(m_LuaState, -1) << std::endl;
 		lua_pop(m_LuaState, 1);
 		return false;
 	}

@@ -9,12 +9,15 @@ int main(int argc, char* argv[])
 		g_Core.Uninitialize();
 		return 0;
 	}
-	std::cout << "Start game!!!" << std::endl;
-	while (g_bRunning)
+	std::cout << "-----------------Start game!!!-----------------" << std::endl;
+	while (1)
 	{
-		g_bRunning = g_Core.Breathe();
+		if (!g_Core.Breathe())
+			break;
 	}
-	std::cout << "Game over!!!" << std::endl;
+	std::cout << "-----------------Game over!!!-----------------" << std::endl;
 	g_Core.Uninitialize();
+
+	system("PAUSE");
 	return 1;
 }

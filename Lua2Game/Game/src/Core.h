@@ -14,9 +14,11 @@ public:
 	bool	Initialize();
 	void	Uninitialize();
 	bool	Breathe();
+	void	SetRunState(bool bRunning);
 
 private:
 	CLuaScript* m_Script;
+	bool		m_bIsRuning;
 };
 
 extern CCore g_Core;

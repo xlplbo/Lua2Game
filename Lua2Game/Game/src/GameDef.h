@@ -8,8 +8,6 @@ extern "C"{
 #include "../../LuaDll/src/lualib.h"
 }
 
-extern void g_GetRootPath(char * szRootpath, int nSize);
-static bool g_bRunning = true;
 
 struct TLua_Funcs
 {
@@ -18,4 +16,6 @@ struct TLua_Funcs
 };
 
 extern TLua_Funcs g_GameFunc[];
+extern int g_GetGameFuncSize();
+
 #endif

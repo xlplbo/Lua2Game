@@ -16,7 +16,7 @@ public:
 
 private:
 	void	RegisterLuaLib();
-	bool	RegisterFunctions(TLua_Funcs Funcs[], int n = 0);
+	bool	RegisterFunctions(TLua_Funcs Funcs[], int n);
 	
 private:
 	lua_State*	m_LuaState;
