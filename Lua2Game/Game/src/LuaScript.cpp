@@ -1,5 +1,10 @@
 #include <iostream>
 #include "LuaScript.h"
+#include <direct.h>
+
+
+std::set<unsigned> CLuaScript::m_IncludeSet;
+std::set<unsigned> CLuaScript::m_GlobalSet;
 
 CLuaScript::CLuaScript()
 {
@@ -22,6 +27,7 @@ CLuaScript::~CLuaScript()
 		m_LuaState = NULL;
 	}
 	m_IsLoadScript = false;
+	m_GlobalSet.clear();
 }
 
 void CLuaScript::RegisterLuaLib()
@@ -54,7 +60,20 @@ bool CLuaScript::LoadScript(const char* szFileName)
 	if (!m_LuaState)
 		return false;
 
-	m_IsLoadScript = (luaL_dofile(m_LuaState, szFileName) == LUA_OK);
+	unsigned nScriptId = g_FileNameHash(szFileName);
+	if (!AddGlobalSet(nScriptId))
+	{
+		m_IsLoadScript = true;
+		return true;
+	}
+
+	ClearIncludeSet();
+	AddIncludeSet(nScriptId);
+
+	char szPath[128] = "";
+	getcwd(szPath, sizeof(szPath));
+	strncat(szPath, szFileName, strlen(szFileName));
+	m_IsLoadScript = (luaL_dofile(m_LuaState, szPath) == LUA_OK);
 	if (!m_IsLoadScript)
 	{
 		std::cout << "<LUA_LOAD_ERROR>"<< lua_tostring(m_LuaState, -1) << std::endl;
@@ -156,4 +175,19 @@ bool CLuaScript::CallFunction(const char* cFuncName, int nResults, char* cFormat
 	bResult = CallFunction((char*)cFuncName, nResults, cFormat, vlist);
 	va_end(vlist);
 	return bResult;
+}
+
+bool CLuaScript::AddIncludeSet(unsigned nScriptId)
+{
+	return m_IncludeSet.insert(nScriptId).second;
+}
+
+void CLuaScript::ClearIncludeSet()
+{
+	m_IncludeSet.clear();
+}
+
+bool CLuaScript::AddGlobalSet(unsigned nScriptId)
+{
+	return m_GlobalSet.insert(nScriptId).second;
 }

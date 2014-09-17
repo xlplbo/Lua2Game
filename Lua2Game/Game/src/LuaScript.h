@@ -1,6 +1,7 @@
 #ifndef __LUA_SCRIPT_H__
 #define __LUA_SCRIPT_H__
 
+#include <set>
 #include "GameDef.h"
 
 class CLuaScript
@@ -21,6 +22,15 @@ private:
 private:
 	lua_State*	m_LuaState;
 	bool		m_IsLoadScript;
+
+public:
+	static bool	AddIncludeSet(unsigned nScriptId);
+	static void	ClearIncludeSet();
+	static bool AddGlobalSet(unsigned nScriptId);
+
+private:
+	static std::set<unsigned> m_IncludeSet;
+	static std::set<unsigned> m_GlobalSet;
 };
 
 

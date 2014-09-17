@@ -51,7 +51,7 @@ bool CCore::Breathe()
 		}		
 		if (m_Script)
 		{
-			m_Script->LoadScript("./../test.lua");
+			m_Script->LoadScript("\\script\\test.lua");
 			m_Script->CallFunction("main", 1, "sdd", "luaer", c, c / 18);
 		}
 		else
