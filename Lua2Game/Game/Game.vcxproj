@@ -57,12 +57,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core.h" />
-    <ClInclude Include="src\GameDef.h" />
+    <ClInclude Include="src\Api4Lua.h" />
+    <ClInclude Include="src\Global.h" />
+    <ClInclude Include="src\LuaManager.h" />
     <ClInclude Include="src\LuaScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core.cpp" />
-    <ClCompile Include="src\GameDef.cpp" />
+    <ClCompile Include="src\Api4Lua.cpp" />
+    <ClCompile Include="src\Global.cpp" />
+    <ClCompile Include="src\LuaManager.cpp" />
     <ClCompile Include="src\LuaScript.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>

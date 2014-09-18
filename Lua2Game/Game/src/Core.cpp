@@ -1,23 +1,18 @@
-#include "Core.h"
-#include <time.h>
 #include <iostream>
-using namespace std;
+#include <time.h>
+#include "Core.h"
+#include "LuaManager.h"
 
 CCore g_Core;
 
 CCore::CCore()
 {
-	m_Script = NULL;
 	m_bIsRuning = true;
 }
 
 CCore::~CCore()
 {
-	if (m_Script)
-	{
-		delete m_Script;
-		m_Script = NULL;
-	}
+
 }
 
 bool CCore::Initialize()
@@ -42,23 +37,11 @@ bool CCore::Breathe()
 		return false;
 	static size_t c = 0;
 	size_t now = time(NULL);
-	if (now - c > 3)
+	if (now - c > 5)
 	{
 		c = now;
-		if (!m_Script)
-		{
-			m_Script = new CLuaScript;
-		}		
-		if (m_Script)
-		{
-			m_Script->LoadScript("\\script\\test.lua");
-			m_Script->CallFunction("main", 1, "sdd", "luaer", c, c / 18);
-		}
-		else
-		{
-			std::cout << "new CLuaScript failed!" << std::endl;
-			m_bIsRuning = false;
-		}
+		CLuaManager::GetInstance().ExecuteScript("\\script\\test.lua", "main", 1, "sdd", "luaer", c, c / 18);
+		CLuaManager::GetInstance().ExecuteScript("\\script\\test1.lua", "test", 0, "");
 	}
 	return true;
 }

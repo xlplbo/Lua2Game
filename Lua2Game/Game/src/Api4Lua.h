@@ -1,5 +1,5 @@
-#ifndef __GAME_DEF_H__
-#define __GAME_DEF_H__
+#ifndef __API_4_LUA__
+#define __API_4_LUA__
 
 extern "C"{
 #include "../../LuaDll/src/lua.h"
@@ -16,6 +16,5 @@ struct TLua_Funcs
 
 extern TLua_Funcs g_GameFunc[];
 extern int g_GetGameFuncSize();
-extern unsigned g_FileNameHash(const char* pString);
 
 #endif

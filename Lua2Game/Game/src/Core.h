@@ -1,7 +1,6 @@
 #ifndef __CORE_H__
 #define __CORE_H__
 
-#include "GameDef.h"
 #include "LuaScript.h"
 
 class CCore
@@ -17,7 +16,6 @@ public:
 	void	SetRunState(bool bRunning);
 
 private:
-	CLuaScript* m_Script;
 	bool		m_bIsRuning;
 };
 

@@ -2,21 +2,9 @@
 #include "LuaScript.h"
 #include <direct.h>
 
-
-std::set<unsigned> CLuaScript::m_IncludeSet;
-std::set<unsigned> CLuaScript::m_GlobalSet;
-
-CLuaScript::CLuaScript()
+CLuaScript::CLuaScript():
+m_LuaState(NULL)
 {
-	m_LuaState = luaL_newstate();
-	if (!m_LuaState)
-	{
-		std::cout << "m_LuaState new state failed!" << std::endl;
-		return;
-	}
-	RegisterLuaLib();//注册lua标准库
-	RegisterFunctions(g_GameFunc, g_GetGameFuncSize());//注册c\c++脚本接口
-	m_IsLoadScript = false;
 }
 
 CLuaScript::~CLuaScript()
@@ -26,65 +14,62 @@ CLuaScript::~CLuaScript()
 		lua_close(m_LuaState);
 		m_LuaState = NULL;
 	}
-	m_IsLoadScript = false;
-	m_GlobalSet.clear();
 }
+
+bool CLuaScript::Initialize()
+{
+	m_LuaState = luaL_newstate();
+	if (!m_LuaState)
+	{
+		printf("m_LuaState new state failed!\n");
+		return false;
+	}
+	RegisterLuaLib();//注册lua标准库
+	RegisterFunctions(g_GameFunc, g_GetGameFuncSize());//注册c\c++脚本接口
+	return true;
+}
+
 
 void CLuaScript::RegisterLuaLib()
 {
 	if (!m_LuaState)
-	{
 		return;
-	}
 	luaL_openlibs(m_LuaState);
 }
 
-bool CLuaScript::RegisterFunctions(TLua_Funcs Funcs[], int n)
+void CLuaScript::RegisterFunctions(TLua_Funcs Funcs[], int n)
 {
 	if (!m_LuaState)
-	{
-		return false;
-	}
+		return;
 	for (int i = 0; i < n; i++)
 		lua_register(m_LuaState, Funcs[i].name, Funcs[i].func);
-	return true;
 }
 
 bool CLuaScript::LoadScript(const char* szFileName)
 {
 	if (!szFileName || szFileName[0] == '\0')
 	{
-		std::cout << "Lua script file illegal!" << std::endl;
+		printf("Lua script file illegal!\n");
 		return false;
 	}
 	if (!m_LuaState)
 		return false;
 
-	unsigned nScriptId = g_FileNameHash(szFileName);
-	if (!AddGlobalSet(nScriptId))
-	{
-		m_IsLoadScript = true;
-		return true;
-	}
-
-	ClearIncludeSet();
-	AddIncludeSet(nScriptId);
-
 	char szPath[128] = "";
 	getcwd(szPath, sizeof(szPath));
 	strncat(szPath, szFileName, strlen(szFileName));
-	m_IsLoadScript = (luaL_dofile(m_LuaState, szPath) == LUA_OK);
-	if (!m_IsLoadScript)
+	bool bRet = (luaL_dofile(m_LuaState, szPath) == LUA_OK);
+	if (!bRet)
 	{
-		std::cout << "<LUA_LOAD_ERROR>"<< lua_tostring(m_LuaState, -1) << std::endl;
+		printf("<LUA_LOAD_ERROR> %s %s\n", szPath, lua_tostring(m_LuaState, -1));
 		lua_pop(m_LuaState, 1);
 	}
-	return m_IsLoadScript;
+	return bRet;
 }
 
 bool CLuaScript::CallFunction(char* cFuncName, int nResults, char* cFormat, va_list vlist)
 {
-	if (!m_LuaState || !m_IsLoadScript)
+	if (!m_LuaState)
 		return false;
 
 	double	nNumber		= 0;
@@ -158,7 +143,7 @@ bool CLuaScript::CallFunction(char* cFuncName, int nResults, char* cFormat, va_l
 
 	if (nRetcode != 0)
 	{
-		std::cout << "<LUA_CALL_FUNC_ERROR>" << lua_tostring(m_LuaState, -1) << std::endl;
+		printf("<LUA_CALL_FUNC_ERROR> %s %s\n", cFuncName, lua_tostring(m_LuaState, -1));
 		lua_pop(m_LuaState, 1);
 		return false;
 	}
@@ -175,19 +160,4 @@ bool CLuaScript::CallFunction(const char* cFuncName, int nResults, char* cFormat
 	bResult = CallFunction((char*)cFuncName, nResults, cFormat, vlist);
 	va_end(vlist);
 	return bResult;
-}
-
-bool CLuaScript::AddIncludeSet(unsigned nScriptId)
-{
-	return m_IncludeSet.insert(nScriptId).second;
-}
-
-void CLuaScript::ClearIncludeSet()
-{
-	m_IncludeSet.clear();
-}
-
-bool CLuaScript::AddGlobalSet(unsigned nScriptId)
-{
-	return m_GlobalSet.insert(nScriptId).second;
 }

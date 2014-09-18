@@ -21,10 +21,16 @@
     <ClInclude Include="src\Core.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameDef.h">
+    <ClInclude Include="src\LuaScript.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\LuaScript.h">
+    <ClInclude Include="src\Global.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Api4Lua.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LuaManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -38,7 +44,13 @@
     <ClCompile Include="src\main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameDef.cpp">
+    <ClCompile Include="src\Global.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Api4Lua.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LuaManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

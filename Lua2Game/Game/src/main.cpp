@@ -1,6 +1,5 @@
 #include <iostream>
 #include "Core.h"
-using namespace std;
 
 int main(int argc, char* argv[])
 {
@@ -9,13 +8,13 @@ int main(int argc, char* argv[])
 		g_Core.Uninitialize();
 		return 0;
 	}
-	std::cout << "-----------------Start game!!!-----------------" << std::endl;
+	printf("-----------------Start game!!!-----------------\n");
 	while (1)
 	{
 		if (!g_Core.Breathe())
 			break;
 	}
-	std::cout << "-----------------Game over!!!-----------------" << std::endl;
+	printf("-----------------Game over!!!------------------\n");
 	g_Core.Uninitialize();
 
 	system("PAUSE");
