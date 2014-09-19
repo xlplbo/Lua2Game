@@ -35,13 +35,15 @@ bool CCore::Breathe()
 {
 	if (!m_bIsRuning)
 		return false;
+	static size_t nCount = 0;
 	static size_t c = 0;
 	size_t now = time(NULL);
 	if (now - c > 5)
 	{
 		c = now;
 		CLuaManager::GetInstance().ExecuteScript("\\script\\test.lua", "main", 1, "sdd", "luaer", c, c / 18);
-		CLuaManager::GetInstance().ExecuteScript("\\script\\test1.lua", "test", 0, "");
+		CLuaManager::GetInstance().ExecuteScript("\\script\\test1.lua", "test", 0, 0);
+		printf("------- Count = %d -------\n", ++nCount);
 	}
 	return true;
 }

@@ -18,17 +18,19 @@ int LuaInclude(lua_State* L)
 	
 	szFileName = lua_tostring(L, 1);
 	if (!szFileName || szFileName[0] == '\0')
-		goto POINT;;
-	
+		goto POINT;
+
 	nScriptId = g_FileNameHash(szFileName);
 	if (!CLuaManager::GetInstance().AddIncludeSet(nScriptId))
 		goto POINT;
+
+	printf("Include('%s')\n", szFileName);
 
 	getcwd(szPath, sizeof(szPath));
 	strncat(szPath, szFileName, strlen(szFileName));
 	if (luaL_dofile(L, szPath) != LUA_OK)
 	{
-		printf("<LUA_LOAD_ERROR> %s\n", lua_tostring(L, -1));
+		printf("LUA_LOAD_ERROR [%s] %s\n", szFileName, lua_tostring(L, -1));
 		lua_pop(L, 1);
 		goto POINT;
 	}
@@ -44,8 +46,8 @@ int LuaReloadAllScript(lua_State* L)
 {
 	//释放所有的lua_State
 	//脚本调用是异步的，有可能导致lua_State已释放，仍然使用！！！
-	//这个问题有待解决
-	CLuaManager::GetInstance().UnInitialize();
+	//这个问题已解决
+	CLuaManager::GetInstance().ReloadAlScript();
 	return 0;
 }
 

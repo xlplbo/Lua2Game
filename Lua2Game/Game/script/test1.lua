@@ -5,6 +5,6 @@ function test()
 	print("Include(test1.lua) func test");
 	print("test g_TEST_VALUE  =", g_TEST_VALUE)
 	fortest("tester", 12, 1)
-	--ReloadAllScript();
+	ReloadAllScript();
 	return 1;
 end

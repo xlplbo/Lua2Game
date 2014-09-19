@@ -20,11 +20,7 @@ void CLuaManager::UnInitialize()
 {
 	for (MAP_LUASCRIPT_IT it = m_ScriptMap.begin(); it != m_ScriptMap.end(); ++it)
 	{
-		if (it->second)
-		{
-			delete it->second;
-			it->second = NULL;
-		}
+		delete it->second.pLuaScript;
 	}
 	m_ScriptMap.clear();
 	ClearIncludeSet();
@@ -32,40 +28,44 @@ void CLuaManager::UnInitialize()
 
 CLuaScript* CLuaManager::GetScript(const char* szPath)
 {
-	CLuaScript* pLuaScript	= NULL;
-	unsigned nScriptId		= 0;
-
 	if (!szPath || szPath[0] == '\0')
 		return NULL;
 
-	nScriptId = g_FileNameHash(szPath);
-	pLuaScript = GetScript(nScriptId);
-	if (pLuaScript)
-		return pLuaScript;
+	TScriptNode tScriptNode = {0};
+	CLuaScript* pLuaScript	= NULL;
+	unsigned nScriptId		= g_FileNameHash(szPath);
+	MAP_LUASCRIPT_IT it		= m_ScriptMap.find(nScriptId);
+	if (it != m_ScriptMap.end())
+	{
+		pLuaScript = it->second.pLuaScript;
+		if (it->second.bNeedReload) /*need to reload*/
+		{
+			delete pLuaScript;
+			m_ScriptMap.erase(it);
+			goto POINT1;
+		}
+		return pLuaScript; /*is exsit*/
+	}
 	
+POINT1: /*new lua_state*/
 	pLuaScript = new CLuaScript;
 	if (!pLuaScript || !pLuaScript->Initialize())
-		goto POINT;
+		goto POINT2;
 
 	ClearIncludeSet();
+	AddIncludeSet(nScriptId);
 	if (!pLuaScript->LoadScript(szPath))
-		goto POINT;
+		goto POINT2;
 
-	if (!m_ScriptMap.insert(MAP_LUASCRIPT::value_type(nScriptId, pLuaScript)).second)
-		goto POINT;
+	tScriptNode.pLuaScript = pLuaScript;
+	tScriptNode.bNeedReload = false;
+	if (!m_ScriptMap.insert(MAP_LUASCRIPT::value_type(nScriptId, tScriptNode)).second)
+		goto POINT2;
 
 	return pLuaScript;
 
-POINT:
+POINT2: /*init failed*/
 	delete pLuaScript;
-	return NULL;
-}
-
-CLuaScript* CLuaManager::GetScript(unsigned nScriptId)
-{
-	MAP_LUASCRIPT_IT it = m_ScriptMap.find(nScriptId);
-	if (it != m_ScriptMap.end() && it->second)
-		return it->second;
 	return NULL;
 }
 
@@ -97,4 +97,18 @@ bool CLuaManager::AddIncludeSet(unsigned nScriptId)
 void CLuaManager::ClearIncludeSet()
 {
 	m_IncludeSet.clear();
+}
+
+void CLuaManager::ReloadAlScript()
+{
+	int nCount = 0;
+	for (MAP_LUASCRIPT_IT it = m_ScriptMap.begin(); it != m_ScriptMap.end(); ++it)
+	{
+		if (it->second.pLuaScript)
+		{
+			it->second.bNeedReload = true;
+			nCount++;
+		}
+	}
+	printf("Reload All Script Count = %d!\n", nCount);
 }
