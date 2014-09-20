@@ -55,7 +55,7 @@ bool CLuaScript::LoadScript(const char* szFileName)
 	if (!m_LuaState)
 		return false;
 
-	char szPath[128] = "";
+	char szPath[FILE_PATH_MAX] = "";
 	getcwd(szPath, sizeof(szPath));
 	strncat(szPath, szFileName, strlen(szFileName));
 	bool bRet = (luaL_dofile(m_LuaState, szPath) == LUA_OK);

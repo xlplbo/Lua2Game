@@ -24,7 +24,7 @@ int LuaInclude(lua_State* L)
 	if (!CLuaManager::GetInstance().AddIncludeSet(nScriptId))
 		goto POINT;
 
-	printf("Include('%s')\n", szFileName);
+	//printf("Include('%s')\n", szFileName);
 
 	getcwd(szPath, sizeof(szPath));
 	strncat(szPath, szFileName, strlen(szFileName));
