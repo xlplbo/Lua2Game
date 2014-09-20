@@ -61,7 +61,7 @@ bool CLuaScript::LoadScript(const char* szFileName)
 	bool bRet = (luaL_dofile(m_LuaState, szPath) == LUA_OK);
 	if (!bRet)
 	{
-		printf("LUA_LOAD_ERROR [%s] %s\n", szPath, lua_tostring(m_LuaState, -1));
+		printf("LUA_LOAD_ERROR: %s\n", lua_tostring(m_LuaState, -1));
 		lua_pop(m_LuaState, 1);
 	}
 	return bRet;

@@ -20,10 +20,10 @@ public:
 	static CLuaManager& GetInstance();
 	void			UnInitialize();
 	CLuaScript*		GetScript(const char* szPath);
-	bool			ExecuteScript(const char* szPath, const char*szFuncName, int nResults, char* cFormat, ...);
+	bool			ExecuteScript(const char* szPath, const char*szFuncName, int nResults = 0, char* cFormat = NULL, ...);
 	bool			AddIncludeSet(unsigned nScriptId);
 	void			ClearIncludeSet();
-	void			ReloadAlScript();
+	void			ReloadAllScript();
 
 private:
 	typedef std::map<unsigned, TScriptNode>	MAP_LUASCRIPT;

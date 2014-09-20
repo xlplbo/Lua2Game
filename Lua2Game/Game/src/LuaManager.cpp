@@ -69,8 +69,13 @@ POINT2: /*init failed*/
 	return NULL;
 }
 
-bool CLuaManager::ExecuteScript(const char* szPath, const char* szFuncName, int nResults, char* cFormat, ...)
+bool CLuaManager::ExecuteScript(const char* szPath, const char* szFuncName, int nResults /*= 0*/, char* cFormat /*= NULL*/, ...)
 {
+	if (!szPath || szPath[0] == '\0' || !szFuncName || szFuncName[0] == '\0')
+	{
+		printf("Param ERROR : %s : %s\n", szPath ? szPath : NULL, szFuncName ? szFuncName : NULL);
+		return false;
+	}
 	CLuaScript* pLuaScript = GetScript(szPath);
 	if (!pLuaScript)
 		return false;
@@ -99,7 +104,7 @@ void CLuaManager::ClearIncludeSet()
 	m_IncludeSet.clear();
 }
 
-void CLuaManager::ReloadAlScript()
+void CLuaManager::ReloadAllScript()
 {
 	int nCount = 0;
 	for (MAP_LUASCRIPT_IT it = m_ScriptMap.begin(); it != m_ScriptMap.end(); ++it)

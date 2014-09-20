@@ -30,7 +30,7 @@ int LuaInclude(lua_State* L)
 	strncat(szPath, szFileName, strlen(szFileName));
 	if (luaL_dofile(L, szPath) != LUA_OK)
 	{
-		printf("LUA_LOAD_ERROR [%s] %s\n", szFileName, lua_tostring(L, -1));
+		printf("LUA_LOAD_ERROR: %s\n", lua_tostring(L, -1));
 		lua_pop(L, 1);
 		goto POINT;
 	}
@@ -47,7 +47,7 @@ int LuaReloadAllScript(lua_State* L)
 	//释放所有的lua_State
 	//脚本调用是异步的，有可能导致lua_State已释放，仍然使用！！！
 	//这个问题已解决
-	CLuaManager::GetInstance().ReloadAlScript();
+	CLuaManager::GetInstance().ReloadAllScript();
 	return 0;
 }
 
