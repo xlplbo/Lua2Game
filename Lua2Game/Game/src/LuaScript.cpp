@@ -1,6 +1,10 @@
 #include <iostream>
 #include "LuaScript.h"
+#ifdef _WIN32
 #include <direct.h>
+#else
+#include <unistd.h>
+#endif
 
 CLuaScript::CLuaScript():
 m_LuaState(NULL)
@@ -58,6 +62,9 @@ bool CLuaScript::LoadScript(const char* szFileName)
 	char szPath[FILE_PATH_MAX] = "";
 	getcwd(szPath, sizeof(szPath));
 	strncat(szPath, szFileName, strlen(szFileName));
+#ifndef _WIN32
+	g_StrReplace(szPath, '\\', '/');
+#endif
 	bool bRet = (luaL_dofile(m_LuaState, szPath) == LUA_OK);
 	if (!bRet)
 	{

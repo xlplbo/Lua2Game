@@ -1,9 +1,13 @@
-#include <direct.h>
 #include <iostream>
 #include "Api4lua.h"
 #include "Global.h"
 #include "Core.h"
 #include "LuaManager.h"
+#ifdef _WIN32
+#include <direct.h>
+#else
+#include <unistd.h>
+#endif
 
 int LuaInclude(lua_State* L)
 {
@@ -28,6 +32,9 @@ int LuaInclude(lua_State* L)
 
 	getcwd(szPath, sizeof(szPath));
 	strncat(szPath, szFileName, strlen(szFileName));
+#ifndef _WIN32
+	g_StrReplace(szPath, '\\', '/');
+#endif
 	if (luaL_dofile(L, szPath) != LUA_OK)
 	{
 		printf("LUA_LOAD_ERROR: %s\n", lua_tostring(L, -1));

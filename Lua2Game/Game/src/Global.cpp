@@ -15,3 +15,14 @@ unsigned g_FileNameHash(const char* pString)
 	}
 	return (Id ^ 0x12345678);
 }
+
+char* g_StrReplace(char* src, char cs, char cd)
+{
+	char* p = src;
+	while (*p++)
+	{
+		if (*p == cs)
+			*p = cd;
+	}
+	return src;
+}
