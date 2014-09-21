@@ -17,6 +17,6 @@ int main(int argc, char* argv[])
 	printf("-----------------Game over!!!------------------\n");
 	g_Core.Uninitialize();
 
-	system("PAUSE");
+//	system("PAUSE");
 	return 1;
 }

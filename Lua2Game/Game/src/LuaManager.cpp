@@ -69,7 +69,7 @@ POINT2: /*init failed*/
 	return NULL;
 }
 
-bool CLuaManager::ExecuteScript(const char* szPath, const char* szFuncName, int nResults /*= 0*/, char* cFormat /*= NULL*/, ...)
+bool CLuaManager::ExecuteScript(const char* szPath, const char* szFuncName, int nResults /*= 0*/, const char* cFormat /*= NULL*/, ...)
 {
 	if (!szPath || szPath[0] == '\0' || !szFuncName || szFuncName[0] == '\0')
 	{

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string.h>
 #include "LuaScript.h"
 #ifdef _WIN32
 #include <direct.h>
@@ -74,7 +75,7 @@ bool CLuaScript::LoadScript(const char* szFileName)
 	return bRet;
 }
 
-bool CLuaScript::CallFunction(char* cFuncName, int nResults, char* cFormat, va_list vlist)
+bool CLuaScript::CallFunction(const char* cFuncName, int nResults, const char* cFormat, va_list vlist)
 {
 	if (!m_LuaState)
 		return false;
@@ -159,12 +160,12 @@ bool CLuaScript::CallFunction(char* cFuncName, int nResults, char* cFormat, va_l
 }
 
 
-bool CLuaScript::CallFunction(const char* cFuncName, int nResults, char* cFormat, ...)
+bool CLuaScript::CallFunction(const char* cFuncName, int nResults, const char* cFormat, ...)
 {
 	bool bResult = false;
 	va_list vlist;
 	va_start(vlist, cFormat);
-	bResult = CallFunction((char*)cFuncName, nResults, cFormat, vlist);
+	bResult = CallFunction(cFuncName, nResults, cFormat, vlist);
 	va_end(vlist);
 	return bResult;
 }

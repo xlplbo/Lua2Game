@@ -13,8 +13,8 @@ public:
 public:
 	bool	Initialize();
 	bool	LoadScript(const char* szFileName);
-	bool	CallFunction(char* cFuncName, int nResults, char* cFormat, va_list vlist);
-	bool	CallFunction(const char* cFuncName, int nResults, char* cFormat, ...);
+	bool	CallFunction(const char* cFuncName, int nResults, const char* cFormat, va_list vlist);
+	bool	CallFunction(const char* cFuncName, int nResults, const char* cFormat, ...);
 
 private:
 	void	RegisterLuaLib();

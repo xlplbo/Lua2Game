@@ -1,5 +1,6 @@
 #include <iostream>
-#include "Api4lua.h"
+#include <string.h>
+#include "Api4Lua.h"
 #include "Global.h"
 #include "Core.h"
 #include "LuaManager.h"
@@ -67,7 +68,7 @@ int LuaSayHello(lua_State* L)
 	const char* szName = lua_tostring(L, 1);
 	int nParam1 = lua_tonumber(L, 2);
 	int nParam2 = lua_tonumber(L, 3);
-	printf("My name is %d\n", szName);
+	printf("My name is %s\n", szName);
 	lua_pushnumber(L, nParam1 / nParam2);
 	return 1;
 }
