@@ -46,7 +46,7 @@ bool CCore::Breathe()
 		size_t c = time(NULL);
 		CLuaManager::GetInstance().ExecuteScript("\\script\\test.lua", "main", 1, "sdd", "luaer", c, c / 18);
 		CLuaManager::GetInstance().ExecuteScript("\\script\\test1.lua", "test");
-		printf("------------- %ds -----------\n", nCount);
+		printf("------------- %lds -----------\n", nCount);
 	}
 	++ nCount;
 #ifdef _WIN32
