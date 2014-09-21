@@ -41,12 +41,16 @@ bool CCore::Breathe()
 	if (!m_bIsRuning)
 		return false;
 	static size_t nCount = 0;
-	size_t c = time(NULL);
-	CLuaManager::GetInstance().ExecuteScript("\\script\\test.lua", "main", 1, "sdd", "luaer", c, c / 18);
-	CLuaManager::GetInstance().ExecuteScript("\\script\\test1.lua", "test");
-	printf("------- Count = %ld -------\n", ++nCount);
+	if (nCount % 5 == 0)
+	{
+		size_t c = time(NULL);
+		CLuaManager::GetInstance().ExecuteScript("\\script\\test.lua", "main", 1, "sdd", "luaer", c, c / 18);
+		CLuaManager::GetInstance().ExecuteScript("\\script\\test1.lua", "test");
+		printf("------------------------\n");
+	}
+	++ nCount;
 #ifdef _WIN32
-	sleep(1000);
+	Sleep(1000);
 #else
 	sleep(1);
 #endif
