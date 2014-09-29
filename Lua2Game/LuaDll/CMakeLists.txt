@@ -34,13 +34,13 @@ target_link_libraries (lua m)
 #target_link_libraries (luac lualib)
 
 # 5. install
-install(TARGETS 
-	lualib 
-	luaso
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib
-)
-install(FILES 
-	src/lua.h 
-	DESTINATION include/lua
-)
+#install(TARGETS 
+#	lualib 
+#	luaso
+#	LIBRARY DESTINATION lib
+#	ARCHIVE DESTINATION lib
+#)
+#install(FILES 
+#	src/lua.h 
+#	DESTINATION include/lua
+#)
