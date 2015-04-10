@@ -81,12 +81,59 @@ int LuaStopGame(lua_State* L)
 	return 0;
 }
 
+int LuaTestTable(lua_State* L)
+{
+	printf("stack size = %d\n", lua_gettop(L));
+
+	lua_pushstring(L, "gdp");
+	lua_gettable(L, 1);
+	printf("%s\n", lua_tostring(L, -1));
+	lua_pop(L, 1);
+	printf("stack size = %d\n", lua_gettop(L));
+
+	lua_pushstring(L, "info");
+	lua_gettable(L, 1);
+	printf("%s\n", lua_tostring(L, -1));
+	lua_pop(L, 1);
+	printf("stack size = %d\n", lua_gettop(L));
+
+	lua_pushstring(L, "task");
+	lua_gettable(L, 1);
+	for (int i = 0; i < 4; ++i)
+	{
+		lua_pushnumber(L, i+1);
+		lua_gettable(L, -2);
+		printf("%s\n", lua_tostring(L, -1));
+		lua_pop(L, 1);
+	}
+	lua_pop(L, 1);
+	printf("stack size = %d\n", lua_gettop(L));
+
+	lua_newtable(L);
+	lua_pushnumber(L, 1);
+	lua_pushstring(L, "table2lua");
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "key");
+	lua_newtable(L);
+	lua_pushstring(L, "capi");
+	lua_pushcfunction(L, LuaSayHello);
+	lua_settable(L, -3);
+	lua_pushnumber(L, 2);
+	lua_pushnumber(L, 10086);
+	lua_settable(L, -3);
+	lua_settable(L, -3);
+	printf("stack size = %d\n", lua_gettop(L));
+	return 1;
+}
+
 //½Å±¾½Ó¿Ú
 TLua_Funcs g_GameFunc[] = {
 	{ "Include",				LuaInclude },
 	{ "ReloadAllScript",		LuaReloadAllScript},
 	{ "SayHello",				LuaSayHello },
 	{ "StopGame",				LuaStopGame },
+	{ "TestTable",				LuaTestTable },
 };
 
 int g_GetGameFuncSize()
